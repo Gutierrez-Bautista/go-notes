@@ -1,3 +1,24 @@
+# Tabla de Contenidos
+
+- [Tabla de Contenidos](#tabla-de-contenidos)
+- [GO](#go)
+  - [Recursos](#recursos)
+  - [Instalación](#instalación)
+  - [Usos Principales](#usos-principales)
+  - [Frameworks](#frameworks)
+  - [Librería Estandar](#librería-estandar)
+  - [Paquetes](#paquetes)
+    - [Paquete `main`](#paquete-main)
+    - [Importar Paquetes](#importar-paquetes)
+  - [Módulos](#módulos)
+  - [Punto de Entrada de un Módulo](#punto-de-entrada-de-un-módulo)
+  - [Tipos de Datos Primitivos](#tipos-de-datos-primitivos)
+  - [Variables](#variables)
+  - [Estructuras de Control](#estructuras-de-control)
+    - [if, else if y else](#if-else-if-y-else)
+    - [Bucles](#bucles)
+  - [Arrays](#arrays)
+
 # GO
 
 GO es un lenguaje de prograación creado por Google en 2007 pensado para ser eficiente y fácil de aprender. Surge como una alternativa a C/C++ para ciertas tareas, sobre todo las relacionadas a la concurrencia.
@@ -8,7 +29,7 @@ GO es un lenguaje compilado, fuertemente tipado, concurrente, imperativo ([progr
 
 - [Mouredev - Primeros pasos en GO](https://www.youtube.com/watch?v=AGiayASyp2Q)
 
-## Instalación de GO
+## Instalación
 
 Instalar GO es muy sencillo (y similar a Python), debemos dirigirnos a la página oficial y allí descargar el instalador de la última versión estable de GO ([aquí](https://go.dev/doc/install)), tras tener el instalador lo ejecutamos y seguimos los pasos estandar de instalar un programa.
 
@@ -185,8 +206,6 @@ func main() {
   } else {
     fmt.Println("myInt es positivo")
   }
-
-  if myInt >= 0 && myInt < 130 {}
 }
 ```
 
