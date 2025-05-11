@@ -1,11 +1,12 @@
 # Tabla de Contenidos
 
 - [Tabla de Contenidos](#tabla-de-contenidos)
-- [GO](#go)
-  - [Recursos](#recursos)
-  - [Instalación](#instalación)
+- [¿Qué es GO?](#qué-es-go)
   - [Usos Principales](#usos-principales)
   - [Frameworks](#frameworks)
+  - [Recursos](#recursos)
+- [Instalación](#instalación)
+- [Bases de GO](#bases-de-go)
   - [Librería Estandar](#librería-estandar)
   - [Paquetes](#paquetes)
     - [Paquete `main`](#paquete-main)
@@ -23,21 +24,16 @@
     - [range](#range)
   - [Funciones](#funciones)
   - [Estructuras](#estructuras)
-- [Llamando Módulos](#llamando-módulos)
+- [Importación de Módulos](#importación-de-módulos)
+    - [Preparando Saludos](#preparando-saludos)
+    - [Importando `Saludo` desde `./hola/main.go`](#importando-saludo-desde-holamaingo)
+- [Errores](#errores)
 
-# GO
+# ¿Qué es GO?
 
 GO es un lenguaje de prograación creado por Google en 2007 pensado para ser eficiente y fácil de aprender. Surge como una alternativa a C/C++ para ciertas tareas, sobre todo las relacionadas a la concurrencia.
 
 GO es un lenguaje compilado, fuertemente tipado, concurrente, imperativo ([programación imperativa](https://es.wikipedia.org/wiki/Programaci%C3%B3n_imperativa)) y estructurado (no posee Clases, Objetos ni Enumerados, en su lugar si queremos representar "objetos" tendremos estructuras)
-
-## Recursos
-
-- [Mouredev - Primeros pasos en GO](https://www.youtube.com/watch?v=AGiayASyp2Q)
-
-## Instalación
-
-Instalar GO es muy sencillo (y similar a Python), debemos dirigirnos a la página oficial y allí descargar el instalador de la última versión estable de GO ([aquí](https://go.dev/doc/install)), tras tener el instalador lo ejecutamos y seguimos los pasos estandar de instalar un programa.
 
 ## Usos Principales
 
@@ -50,6 +46,16 @@ GO es increíble manejando concurrencia y trabajando con múltiples hilos por lo
 ## Frameworks
 
 Hay muchos Frameworks para GO, principalmente orientados a la creación de aplicaciones de servidor. Algunos de los más conocidos son Gin, Fiber y Buffalo, pero hay muchos más.
+
+## Recursos
+
+- [Mouredev - Primeros pasos en GO](https://www.youtube.com/watch?v=AGiayASyp2Q)
+
+# Instalación
+
+Instalar GO es muy sencillo (y similar a Python), debemos dirigirnos a la página oficial y allí descargar el instalador de la última versión estable de GO ([aquí](https://go.dev/doc/install)), tras tener el instalador lo ejecutamos y seguimos los pasos estandar de instalar un programa.
+
+# Bases de GO
 
 ## Librería Estandar
 
@@ -411,7 +417,89 @@ fmt.Println(persona1.name)
 fmt.Println(persona1.age)
 ```
 
-# Llamando Módulos
+# Importación de Módulos
+
+Vamos a suponer un ejemplo muy básico, un módulo con una función que genera un saludo y otro que quiere acceder a esta. Nuestra estructura de carpetas será la siguiente
+
+```txt
+02.importing-modules
+      |---- hola
+      |       |--- go.mod
+      |       |--- main.go
+      |---- saludos
+              |--- go.mod
+              |--- saludos.go
+```
+
+### Preparando Saludos
+
+En `saludos.go` tendremos lo siguiente:
+
+```go
+// path: ./saludos/saludos.go
+package saludos
+
+import "fmt"
+
+// La función debe estar con mayúscula para poder accederla desde fuera
+func Saludo(name string, age uint8) string {
+	message := fmt.Sprintf("Hola %v de %v años", name, age)
+	return message
+}
+```
+
+Mientras que en su correspondiente `go.mod` tendremos lo básico
+
+```mod
+// path: ./saludos/go.mod
+module exaple/saludos
+
+go 1.24.3
+```
+
+### Importando `Saludo` desde `./hola/main.go`
+
+Lo primero que vamos a hacer es escribir el código de `main.go`
+
+```go
+// path: ./hola/main.go
+package main
+
+import (
+	"fmt"
+
+	"example/saludos" // importamos nuestro paquete
+)
+
+func main() {
+	ms := saludos.Saludo("Paco", 20)
+
+	fmt.Println(ms)
+}
+```
+
+Ahora tenemos una cosa que resolver, por defecto GO intentará descargar el paquete de forma remota, para que GO busque el paquete localmente (ya que aún no hemos publicado paquetes) tenemos que decirle a GO que remplace `example/saludos` con `../saludos` (el path relativo al módulo). Para ello ejecutamos el siguiente comando de terminal
+
+```sh
+go mod edit -replace example/saludos=../saludos
+```
+
+Por último ejecutamos el comando `go mod tidy` que se encarga de actualizar las dependencias, de esta manera el archivo `go.mod` quedaría así
+
+```mod
+// path: ./hello/go.mod
+module example.com/hello
+
+go 1.24.3
+
+replace example/saludos => ../saludos
+
+require example/saludos v0.0.0-00010101000000-000000000000
+```
+
+Con esto ya tenemos nuestro código funcionando
+
+# Errores
 
 > [!WARNING]
 > IN PROGRESS...
