@@ -23,6 +23,7 @@
     - [range](#range)
   - [Funciones](#funciones)
   - [Estructuras](#estructuras)
+- [Llamando Módulos](#llamando-módulos)
 
 # GO
 
@@ -369,7 +370,6 @@ package main
 
 import (
 	"fmt"
-	"strconv" // permite convertir a string
 )
 
 func main() {
@@ -377,15 +377,41 @@ func main() {
 }
 
 func saludar (name string, age int) string {
-  // strconv.Itoa() convierte el argumento de tipo int a un string
-	return "Hola " + name + " - " + strconv.Itoa(age) + " años"
+  // fmt.Sprintf nos permite dar formato a textos insertando variables en partes concretas de este (https://pkg.go.dev/fmt)
+	message := fmt.Sprintf("Hola %v - %v años", name, age)
+  return message
 }
 ```
 
 Como GO es un lenguaje compilado podemos llamar a una función en una linea anterior a la que define a dicha función. 
 
-
 ## Estructuras
+
+Una estructura es una forma de representar datos relacionados, podríamos pensarlo como algo similar a las clases en otros lenguajes pero realmente no lo son, no tenemos herencia, encapsulamiento, instanciación ni ningún concepto de la Programación Orientada a Objetos.
+
+Para definir una estructura lo que hacemos es usar las palabras reservadas `type` y `struct` como se ve a continuación
+
+```go
+type Persona struct {
+  name string
+  age  uint8
+}
+```
+
+Para usarla basta con que creemos una variable de la siguiente manera
+
+```go
+persona1 := Persona{"Paco", 23}
+```
+
+Para acceder a los valores almacenados en la estructura de forma independiente lo hacemos como `.<prop>`
+
+```go
+fmt.Println(persona1.name)
+fmt.Println(persona1.age)
+```
+
+# Llamando Módulos
 
 > [!WARNING]
 > IN PROGRESS...

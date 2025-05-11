@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 )
 
 func main() {
@@ -67,8 +66,20 @@ func main() {
 	}
 
 	fmt.Println(saludar("Paco", 30))
+
+	type Persona struct {
+		name string
+		age  uint8
+	}
+
+	persona1 := Persona{"Paco", 23}
+
+	fmt.Println(persona1)
+	fmt.Println(persona1.name)
+	fmt.Println(persona1.age)
 }
 
 func saludar (name string, age int) string {
-	return "Hola " + name + " - " + strconv.Itoa(age) + " años"
+	message := fmt.Sprintf("Hola %v - %v años", name, age)
+	return message
 }
