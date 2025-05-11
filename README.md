@@ -20,6 +20,9 @@
   - [Arrays](#arrays)
   - [Maps](#maps)
   - [Bucles](#bucles)
+    - [range](#range)
+  - [Funciones](#funciones)
+  - [Estructuras](#estructuras)
 
 # GO
 
@@ -213,8 +216,32 @@ func main() {
 
 ### Switch
 
-> [!WARNING]
-> IN PROGRESS...
+La sintaxis de los condicionales Switch es bastante sencilla, y muy similar a Java
+
+```go
+switch variable {
+  case expression:
+    // do something if variable == expression
+  case expression2:
+    // do something if variable == expression2
+  default:
+    // Do something if variable != expression1 && variable != expression2.
+}
+```
+
+Por ejemplo
+
+```go
+day := "lunes"
+
+switch day {
+  case "sábado", "domingo":
+    fmt.Println("Fin de semana")
+  default:
+    fmt.Println("Entre semana")
+}
+```
+
 
 ## Arrays
 
@@ -222,6 +249,7 @@ Al igual que en lenguajes como Java a la hora de crear un Array debemos aclarar 
 
 ```go
 var myArray [3]int // un Array de 3 enteros
+fmt.Println(myArray) // --> [0 0 0]
 ```
 
 A la hora de asignarle valores a los elementos de un Array lo hacemos con `myArray[<index>] = <value>`.
@@ -232,7 +260,14 @@ myArray[0] = 10
 myArray[1] = 30
 myArray[2] = 8
 
-fmt.Println(myArray)
+fmt.Println(myArray) // --> [10 30 8]
+```
+
+Si queremos inicializar el Array a la par que lo creamos podemos hacer lo siguiente
+
+```go
+myArray2 := [3]int8{1, 2}
+fmt.Println(myArray2) // --> [1 2 0]
 ```
 
 ## Maps
@@ -266,6 +301,91 @@ fmt.Println(sonsQty)
 ```
 
 ## Bucles
+
+En GO hay solo un tipo de bucle, el `for`, que tiene una sintaxis muy similar a JavaScript
+
+```go
+for initilization; condition; update {
+  // code...
+}
+```
+
+La inicialización se ejecuta una sola vez namás entrar al bucle (generalmente usada para declarar variables).
+
+El bucle se ejecutará hasta que la condición sea falsa.
+
+Al final de cada iteración se ejecuta `update`
+
+```go
+myArray := [3]uint8{10, 140, 255}
+
+for index := 0; index < len(myArray); index++ {
+  fmt.Println(myArray[index])
+}
+```
+
+La función `len` devuelve la cantidad de elementos de una estructura de datos (por ejemplo de un Array o un Map).
+
+Si queremos salir del bucle antes de que termine normalmente podemos hacerlo con la palabra reservada `break` mietras que podemos pasar a la siguiente iteración sin esperar a que la actual se complete con `continue` (igual que en Python).
+
+### range
+
+A la hora de recorrer estructuras de datos como Arrays o Maps es más moderno hacerlo con un `for...range`
+
+```go
+for index := range myArray {
+  fmt.Println(index, "-->", myArray[index])
+}
+
+for index, value := range myArray {
+  fmt.Println(index, "-->", value)
+}
+```
+
+Ambos bucles dan el mismo resultado pero con uno nos ahorramos tener que acceder al Array.
+
+```go
+for key, value := range myMap {
+  // ...
+}
+```
+
+## Funciones
+
+Al igual que en cualquier lenguaje empleado en la actualidad, GO nos da la posibilidad de crear bloque de código reutilizables, las funciones. Estas son creadas con la palabra reservada `func` siguiendo la siguiente estructura
+
+```go
+func functionName(param1 param1Type, param2 param2Type, ...) returnType {
+  // ...
+}
+```
+
+Podemos tener tantos parametros como queramos pero todos debemos utilizarlos.
+
+El tipo de dato que devuelve la función debemos especificarlo siempre que vayamos a usar `return`.
+
+```go
+package main
+
+import (
+	"fmt"
+	"strconv" // permite convertir a string
+)
+
+func main() {
+  saludar("Juan", 20)
+}
+
+func saludar (name string, age int) string {
+  // strconv.Itoa() convierte el argumento de tipo int a un string
+	return "Hola " + name + " - " + strconv.Itoa(age) + " años"
+}
+```
+
+Como GO es un lenguaje compilado podemos llamar a una función en una linea anterior a la que define a dicha función. 
+
+
+## Estructuras
 
 > [!WARNING]
 > IN PROGRESS...
