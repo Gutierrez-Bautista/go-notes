@@ -14,10 +14,12 @@
   - [Punto de Entrada de un Módulo](#punto-de-entrada-de-un-módulo)
   - [Tipos de Datos Primitivos](#tipos-de-datos-primitivos)
   - [Variables](#variables)
-  - [Estructuras de Control](#estructuras-de-control)
+  - [Condicionales](#condicionales)
     - [if, else if y else](#if-else-if-y-else)
-    - [Bucles](#bucles)
+    - [Switch](#switch)
   - [Arrays](#arrays)
+  - [Maps](#maps)
+  - [Bucles](#bucles)
 
 # GO
 
@@ -118,7 +120,7 @@ func main() {
 
 ## Tipos de Datos Primitivos
 
-- `string` --> cadenas de texto
+- `string` --> cadenas de texto, se escriben siempre entre comillas dobles (`"`)
 - `int` --> para enteros de, como mínimo, 32 bits, toma de referencia la arquitectura del OS
 - `int8` --> para enteros de 8 bits
 - `int16` --> para enteros de 16 bits
@@ -174,7 +176,7 @@ func main() {
 }
 ```
 
-## Estructuras de Control
+## Condicionales
 
 ### if, else if y else
 
@@ -209,12 +211,61 @@ func main() {
 }
 ```
 
-### Bucles
+### Switch
 
 > [!WARNING]
 > IN PROGRESS...
 
 ## Arrays
+
+Al igual que en lenguajes como Java a la hora de crear un Array debemos aclarar su longitud y tipo de dato, esto lo hacemos con la sintaxis `var <arrayName> [<elementsQty>]<type>`. Ej:
+
+```go
+var myArray [3]int // un Array de 3 enteros
+```
+
+A la hora de asignarle valores a los elementos de un Array lo hacemos con `myArray[<index>] = <value>`.
+
+```go
+var myArray [3]int8
+myArray[0] = 10
+myArray[1] = 30
+myArray[2] = 8
+
+fmt.Println(myArray)
+```
+
+## Maps
+
+Los Maps son estructuras de datos del tipo `clave-valor` como los diccionarios de Python o los Objetos de JavaScript. Para crearlos usamos la función `make`, y le pasamos como argumento `map[<keyType>]<valueType>`. Por ejemplo, si queremos crear un Map en el que la clave sea un nombre y el valor sea la edad de una persona lo hariamos de la siguiente manera
+
+```go
+ages := make(map[string]unit8)
+```
+
+Para asignar valores al Map lo que hacemos es pasarle la clave entre corchetes e igualarlo al valor
+
+```go
+ages["Paco"] = 24
+ages["Carlos"] = 36
+ages["Juan"] = 64
+```
+
+A la hora de mostrar simplemente accedemos a la clave especificandola entre corchetes.
+
+```go
+fmt.Println(ages) // imprime todo el Map
+fmt.Println(ages["Paco"]) // Imprime el valor de la clave "Paco"
+```
+
+Si queremos inicializar el Map al mismo tiempo que lo creamos podemos hacerlo de la siguiente manera
+
+```go
+sonsQty := map[string]uint8{"Paco": 0, "Carlos": 1, "Juan": 4}
+fmt.Println(sonsQty)
+```
+
+## Bucles
 
 > [!WARNING]
 > IN PROGRESS...
