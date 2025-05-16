@@ -6,7 +6,7 @@
   - [Frameworks](#frameworks)
   - [Recursos](#recursos)
 - [Instalación](#instalación)
-- [Bases de GO](#bases-de-go)
+- [Bases de GO (código)](#bases-de-go-código)
   - [Librería Estandar](#librería-estandar)
   - [Paquetes](#paquetes)
     - [Paquete `main`](#paquete-main)
@@ -24,10 +24,13 @@
     - [range](#range)
   - [Funciones](#funciones)
   - [Estructuras](#estructuras)
-- [Importación de Módulos](#importación-de-módulos)
-    - [Preparando Saludos](#preparando-saludos)
-    - [Importando `Saludo` desde `./hola/main.go`](#importando-saludo-desde-holamaingo)
-- [Errores](#errores)
+- [Importación de Módulos (código)](#importación-de-módulos-código)
+  - [Preparando Saludos](#preparando-saludos)
+  - [Importando `Saludo` desde `./hola/main.go`](#importando-saludo-desde-holamaingo)
+- [Devolver y Manejar Errores (código)](#devolver-y-manejar-errores-código)
+  - [Devolviendo Error en `./saludos/saludos.go`](#devolviendo-error-en-saludossaludosgo)
+  - [Manejando el Error desde `./hola/main.go`](#manejando-el-error-desde-holamaingo)
+- [Datos Aleatorios](#datos-aleatorios)
 
 # ¿Qué es GO?
 
@@ -55,7 +58,7 @@ Hay muchos Frameworks para GO, principalmente orientados a la creación de aplic
 
 Instalar GO es muy sencillo (y similar a Python), debemos dirigirnos a la página oficial y allí descargar el instalador de la última versión estable de GO ([aquí](https://go.dev/doc/install)), tras tener el instalador lo ejecutamos y seguimos los pasos estandar de instalar un programa.
 
-# Bases de GO
+# Bases de GO ([código](./01.basics/))
 
 ## Librería Estandar
 
@@ -140,6 +143,7 @@ func main() {
 - `float32` --> para decimales de 32 bits
 - `float64` --> para decimales de 64 bits
 - `bool` --> `true` o `false`
+- `nil` --> Equivalente a `None`, `Null` y similares
 
 ## Variables
 
@@ -417,7 +421,7 @@ fmt.Println(persona1.name)
 fmt.Println(persona1.age)
 ```
 
-# Importación de Módulos
+# Importación de Módulos ([código](./02.importing-modules/))
 
 Vamos a suponer un ejemplo muy básico, un módulo con una función que genera un saludo y otro que quiere acceder a esta. Nuestra estructura de carpetas será la siguiente
 
@@ -431,7 +435,7 @@ Vamos a suponer un ejemplo muy básico, un módulo con una función que genera u
               |--- saludos.go
 ```
 
-### Preparando Saludos
+## Preparando Saludos
 
 En `saludos.go` tendremos lo siguiente:
 
@@ -457,7 +461,7 @@ module exaple/saludos
 go 1.24.3
 ```
 
-### Importando `Saludo` desde `./hola/main.go`
+## Importando `Saludo` desde `./hola/main.go`
 
 Lo primero que vamos a hacer es escribir el código de `main.go`
 
@@ -499,7 +503,66 @@ require example/saludos v0.0.0-00010101000000-000000000000
 
 Con esto ya tenemos nuestro código funcionando
 
-# Errores
+# Devolver y Manejar Errores ([código](./03.return-handle-errors/))
+
+En GO es muy común en caso de error devolver uno y que el módulo que importó la función se encargue de manejarlo.
+
+Para esto nos vamos a apoyar de dos paquetes de GO `errors` (para manipular errores) y `log` (Para dar formato a salidas).
+
+Para ejemplificar esto vamos a modificar el código visto en la [importación de módulos](#importación-de-módulos-código)
+
+## Devolviendo Error en `./saludos/saludos.go`
+
+Aquí lo que vamos a emplear es el paquete `errors` para devolver un error si se pasa como nombre un `string` vacío
+
+```go
+package saludos
+
+import (
+	"errors"
+	"fmt"
+)
+
+func Saludo(name string, age uint8) (string, error) {
+	if name == "" {
+		return "", errors.New("no name") // Si no recivimos nombre devolvemos un saludo vacío y un error
+	}
+
+  message := fmt.Sprintf("Hola %v de %v años", name, age)
+
+  return message, nil // Si recivimos nombre devolvemos un saludo y un error nulo
+}
+```
+
+## Manejando el Error desde `./hola/main.go`
+
+Para manejar el error lo que debemos hacer es con un condicional verificar si recivimos lo error.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"example/saludos"
+)
+
+func main() {
+	log.SetPrefix("Saludo: ") // Cuando hagamos un `log` aparecerá como "Saludo: ...".
+	log.SetFlags(0) // Por defecto `log` muestra la fecha y hora, con Flags(0) quitamos eso.
+
+	ms, err := saludos.Saludo("", 20) // asignamos el saludo a `ms` y el error a `err`
+
+	if err != nil { // Si recivimos un error no nulo
+		log.Fatal("No name entered") // `log.Fatal` imprime un mensaje y sale del programa con código 1
+	}
+
+	fmt.Println(ms)
+}
+```
+
+# Datos Aleatorios
 
 > [!WARNING]
 > IN PROGRESS...
